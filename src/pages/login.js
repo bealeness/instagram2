@@ -7,20 +7,20 @@ export default function Login() {
     const history = useHistory();
     const { firebase } = useContext(FirebaseContext);
 
-    const [ email, setEmail ] = useState("");
+    const [ emailAddress, setEmailAddress ] = useState("");
     const [ password, setPassword] = useState("");
     const [ error, setError ] = useState("");
 
-    const isInvalid = email === '' || password === '';
+    const isInvalid = emailAddress === '' || password === '';
 
     const handleLogin = async (event) => {
         event.preventDefault();
 
         try {
-            await firebase.auth().signInWithEmailAndPassword(email, password);
+            await firebase.auth().signInWithEmailAndPassword(emailAddress, password);
             history.push(ROUTES.DASHBOARD);
           } catch (error) {
-            setEmail('');
+            setEmailAddress('');
             setPassword('');
             setError(error.message);
           }
@@ -51,7 +51,8 @@ export default function Login() {
                             placeholder="Email address"
                             className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary
                             rounded mb-2"
-                            onChange={({ target }) => setEmail(target.value) }
+                            onChange={({ target }) => setEmailAddress(target.value) }
+                            value={emailAddress}
                         />
                         <input 
                             aria-label="Enter your password"
@@ -60,6 +61,7 @@ export default function Login() {
                             className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary
                             rounded mb-2"
                             onChange={({ target }) => setPassword(target.value) }
+                            value={password}
                         />
                         <button 
                             disabled={isInvalid}
